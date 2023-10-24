@@ -5,7 +5,8 @@
 /* Compute and write the checksum of a header, by adding all
  * (unsigned) bytes in it (while hd->chksum is initially all ' ').
  * Then hd->chksum is set to contain the octal encoding of this
- * sum (on 6 bytes), followed by '\0' and ' '. */
+ * sum (on 6 bytes), followed by '\0' and ' '. 
+ */
 void set_checksum(struct posix_header *hd)
 {
     memset(hd->chksum, ' ', 8);
