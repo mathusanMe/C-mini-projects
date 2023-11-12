@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <ctype.h>
-#include "../tarutils.h"
+#include "../../utils/tarutils.h"
 
 struct posix_header hd;
 

@@ -1,31 +1,30 @@
-# Makefile for tar-utilities
+CC=gcc
+SHELL=/bin/bash
+CFLAGS=-Wall -std=c99 -g
+EXEC=program
+SRC= $(shell find src/ tests/ -maxdepth 3 -type f -regex ".*\.c")
+OBJ= $(patsubst src/%, bin/%, $(SRC:.c=.o))
+DIR= $(patsubst src/%, bin/%, $(shell find src/ -maxdepth 2 -type d))
 
-CC = gcc
-CFLAGS = -Wall -Werror
+all: $(EXEC)
 
-all: list-tar de-tar mk-tar main
+$(EXEC): $(OBJ)
+	$(CC) $(CFLAGS) -o $(EXEC) $^
 
-list-tar:
-	$(MAKE) -C tar-utilities/list-tar
+bin/%.o: src/%.c | directories
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-de-tar:
-	$(MAKE) -C tar-utilities/de-tar
+directories: 
+	mkdir -p $(DIR)
 
-mk-tar:
-	$(MAKE) -C tar-utilities/mk-tar
-
-main: main.o
-	$(CC) $(CFLAGS) -o main main.o
-
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+.PHONY: clean mrproper
 
 clean:
-	rm -f main main.o
-	$(MAKE) -C tar-utilities/list-tar clean
-	$(MAKE) -C tar-utilities/de-tar clean
-	$(MAKE) -C tar-utilities/mk-tar clean
+	rm -rf $(OBJ)
 
+mrproper: clean
+	rm -rf $(EXEC)
+	rm -R bin
 
 tarexamples:
 	echo "I tawt I taw a puddy tat" >| tweety
@@ -36,5 +35,5 @@ tarexamples:
 	head -c 2048 tweety.tar >| without_zeros.tar
 	head -c 1545 tweety.tar >| truncated.tar
 	mv tweety.tar without_zeros.tar truncated.tar /tmp
-	(cd templates; tar cf tarutils.tar tarutils.c tarutils.h ; mv tarutils.tar /tmp)
+	(cd src/utils; tar cf tarutils.tar tarutils.c tarutils.h ; mv tarutils.tar /tmp)
 
