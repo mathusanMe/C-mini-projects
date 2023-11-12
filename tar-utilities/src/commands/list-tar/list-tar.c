@@ -75,12 +75,6 @@ int listar(char *tarname)
         {
             printf("%o\t%d\t%d\t%s\n", filemode, filesize, nblocks, phd->name);
         }
-        else
-        {
-            fprintf(stderr, "Invalid file name : %s\n", phd->name);
-            ret = 1;
-            break;
-        }
 
         /* Skip file content */
         lseek(fd, nblocks * BLOCKSIZE, SEEK_CUR);
