@@ -1,7 +1,7 @@
 CC=gcc
 SHELL=/bin/bash
 CFLAGS=-Wall -std=c99 -g
-EXEC=program
+EXEC=tarutilities
 SRC= $(shell find src/ tests/ -maxdepth 3 -type f -regex ".*\.c")
 OBJ= $(patsubst src/%, bin/%, $(SRC:.c=.o))
 DIR= $(patsubst src/%, bin/%, $(shell find src/ -maxdepth 2 -type d))
